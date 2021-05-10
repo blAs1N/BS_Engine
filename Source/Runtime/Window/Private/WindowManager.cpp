@@ -26,7 +26,7 @@ namespace
 
 bool WindowManager::Init() noexcept
 {
-    hInstance = GetModuleHandle(nullptr);
+    handle.hInstance = GetModuleHandle(nullptr);
 
     WNDCLASSEX wc;
     DEVMODE dmScreenSettings;
@@ -36,7 +36,7 @@ bool WindowManager::Init() noexcept
     wc.lpfnWndProc = &MsgProc;
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
-    wc.hInstance = hInstance;
+    wc.hInstance = handle.hInstance;
     wc.hIcon = wc.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
     wc.hCursor = nullptr;
     wc.hbrBackground = reinterpret_cast<HBRUSH>(GetStockObject(WHITE_BRUSH)); // Temp background
@@ -59,9 +59,11 @@ bool WindowManager::Init() noexcept
     ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
 
     /// @todo: Support window mode (not full screen)
-    HWND hWnd = CreateWindowEx(WS_EX_APPWINDOW, ClassName, STRINGIFY(GAME_NAME),
+
+    const std::string nameStr = CastCharSet<char>(StringView{ gameName.ToString().c_str() });
+    HWND hWnd = CreateWindowEx(WS_EX_APPWINDOW, ClassName, nameStr.c_str(),
         WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP,
-        0, 0, size.x, size.y, nullptr, nullptr, hInstance, nullptr);
+        0, 0, size.x, size.y, nullptr, nullptr, handle.hInstance, nullptr);
 
     if (!hWnd) return false;
     
@@ -90,8 +92,8 @@ void WindowManager::Release() noexcept
     ShowCursor(true);
 
     ChangeDisplaySettings(nullptr, 0);
-    DestroyWindow(hWnd);
-    UnregisterClass(ClassName, hInstance);
+    DestroyWindow(handle.hWnd);
+    UnregisterClass(ClassName, handle.hInstance);
 }
 
 #endif
