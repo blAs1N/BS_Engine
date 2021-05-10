@@ -11,5 +11,7 @@ class RHI_API RHI
 public:
 	virtual ~RHI() = default;
 
-	virtual Mesh
+	virtual RHIMesh* CreateMesh();
+	virtual RHIMesh* CreateShader();
+	virtual RHIMesh* CreateTexture();
 };
