@@ -10,11 +10,11 @@ namespace
 	template <class T, class... Args>
 	int32 CreateManager(T*& manager, Args&&... args) noexcept
 	{
-		manager = new T{};
+		manager = new T{ std::forward<Args>(args)... };
 		if (!manager) return 1;
 
 		Accessor<T>::SetManager(manager);
-		return manager->Init(std::forward<Args>(args)...) ? 0 : 2;
+		return manager->Init() ? 0 : 2;
 	}
 
 	template <class T>
