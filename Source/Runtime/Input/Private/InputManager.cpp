@@ -134,7 +134,7 @@ bool InputManager::Init() noexcept
 	impl = new InputImpl;
 
 	const auto hInst = reinterpret_cast<HINSTANCE>
-		(Accessor<WindowManager>::GetManager()->GetInstanceHandle());
+		(Accessor<WindowManager>::GetManager()->GetHandle().hInstance);
 
 	HRESULT result = DirectInput8Create(hInst, DIRECTINPUT_VERSION,
 		IID_IDirectInput8, reinterpret_cast<void**>(&impl->directInput), nullptr);
@@ -148,7 +148,7 @@ bool InputManager::Init() noexcept
 	if (FAILED(result)) return false;
 
 	const auto hWnd = reinterpret_cast<HWND>
-		(Accessor<WindowManager>::GetManager()->GetInstanceHandle());
+		(Accessor<WindowManager>::GetManager()->GetHandle().hInstance);
 
 	result = impl->keyboard->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
 	if (FAILED(result)) return false;
