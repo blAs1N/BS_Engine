@@ -10,7 +10,7 @@ bool RenderManager::Init() noexcept
 
 bool RenderManager::Update(float deltaTime) noexcept
 {
-
+	return true;
 }
 
 void RenderManager::Release() noexcept
