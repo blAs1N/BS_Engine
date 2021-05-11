@@ -29,7 +29,7 @@ namespace
 
 int32 Engine::Init() noexcept
 {
-	int32 error = CreateManager(window);
+	int32 error = CreateManager(window, Name{ STR(STRINGIFY(GAME_NAME)) });
 	if (error) return error;
 
 	error = CreateManager(thread);
