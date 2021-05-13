@@ -10,7 +10,7 @@ template <class R, class... Args>
 class Delegate<R(Args...)> final
 {
 public:
-	Delegate() noexcept : size(0) {}
+	Delegate() noexcept : storage{ nullptr }, size(0) {}
 
 	Delegate(std::nullptr_t) noexcept : Delegate() {}
 
